@@ -34,7 +34,9 @@ class User (database_f.DBConnectedObject):
         missing = []
         
         for p in privileges:
-            if not getattr(self, p):
+            if hasattr(self, p) and getattr(self, p):
+                pass
+            else:
                 missing.append(p)
         
         return missing
