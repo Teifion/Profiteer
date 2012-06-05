@@ -18,7 +18,20 @@ class ErrorTester (unittest.TestCase):
         def f(*args, **kwargs):
             return "X"
         
+        common_f.cache['user'] = user.User()
+        common_f.cache['user'].noexistant_user_permission = True
         self.assertEqual(f(1,2,3), "X")
+        del(common_f.cache['user'])
+        
+        common_f.cache['user'] = user.User()
+        self.assertEqual(f(1,2,3).strip(), """<br /><br />
+                <div class="error">
+                    Insufficient priviliages
+                </div>
+                <br><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Missing: noexistant_user_permission""")
+        del(common_f.cache['user'])
     
     # This is used by gui/emulate_user.py
     def test_emulate_execute(self):
