@@ -8,7 +8,7 @@ import web as root_web
 
 # Pages we don't want to try, it might be they call
 # external resources or something
-skip_pages = [] + data.skip_pages
+skip_pages = ["emulate_user"] + data.skip_pages
 
 # Pages we expect an exception from
 expect_exception = [
@@ -16,7 +16,7 @@ expect_exception = [
     "get_one_field",
     "lookup",
     "edit_error",
-    "emulate_user"
+    # "emulate_user"
 ] + data.expect_exception
 
 class Web_class (unittest.TestCase):
