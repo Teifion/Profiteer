@@ -2,7 +2,7 @@ import unittest
 import os
 import sys
 import argparse
-from profiteer import common_f, database_f, cli_f, config, covers
+from profiteer import common_f, database_f, cli_f, config, covers, user
 from profiteer import sync as sync_module
 import datetime
 
@@ -156,6 +156,12 @@ When ready, run this program again to retry the connection.""")
     # Install database
     o = sync_module.main(fix=True, show_fixes=False, print_output=False)
     
+    # Insert admin
+    query = """UPDATE users SET password = '{}' WHERE id = 1;""".format(user.encode_password('password', 'K*WJgU&j8M) ZT?=J_T-TUfH9*lY#!>@'))
+    try: cursor.execute(query)
+    except Exception as e:
+        raise Exception("Database error: %s\nQuery: %s" % (str(e.args[0]).replace("\n",""), query))
+    
     print(cli_f.shell_text("[g]Database installed[/g]"))
     
     return True
@@ -184,7 +190,7 @@ def main():
     if config.get("clean_screen"):
         os.system('clear')
     
-    parser = argparse.ArgumentParser(description='Profiteer command line interface.', prog="prof")
+    parser = argparse.ArgumentParser(description='Arl command line interface.', prog="arl")
     parser.add_argument('m', help='the mode being run with, list modes with mode set to "list"')
     parser.add_argument('-v', dest="verbose", action="store_true", help='Verbose mode')
     parser.add_argument('-a', dest="all", action="store_true", help='all mode means everything is run', required=False)
