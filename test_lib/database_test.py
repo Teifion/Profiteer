@@ -69,7 +69,7 @@ class Database_tester (unittest.TestCase):
     escape_vals = (
         ("abc", "abc"),
         ("abc'd", "abc''d"),
-        ("abc\\'d", "abc\\\\''d"),
+        ("abc\\'d", "abc\\''d"),
     )
     
     def test_escape(self):
